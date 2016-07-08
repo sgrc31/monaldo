@@ -52,7 +52,7 @@ def book_page(book_id, book_title):
     return render_template('book_page.html',
                            book_id = book_id,
                            book_title = book_title,
-                           book_object_author = Books.query.filter_by(id=book_id).first()
+                           book_object = Books.query.filter_by(id=book_id).first()
                            )
 
 @app.route('/user/<nome>')
