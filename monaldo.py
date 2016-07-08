@@ -47,6 +47,13 @@ def author_page(author_name):
                            book_objects_list = Books.query.filter_by(author_sort=author_name).all()
                            )
 
+@app.route('/book/<book_id>/<book_title>')
+def book_page(book_id, book_title):
+    return render_template('book_page.html',
+                           book_id = book_id,
+                           book_title = book_title
+                           )
+
 @app.route('/user/<nome>')
 def user(nome):
     return render_template('user.html', name=nome)
