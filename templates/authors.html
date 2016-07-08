@@ -1,0 +1,6 @@
+<h1>Eccoti una lista degli autori, bastardo</h1>
+<ul>
+  {% for name in names %}
+    <li><a href="{{ url_for('author_page', author_name = name.name|replace(' ', '_')|lower()) }}">{{ name.name }}</a></li>
+  {% endfor %}
+</ul>

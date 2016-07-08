@@ -1,0 +1,14 @@
+# Virtual environment
+venv
+
+# SQLite database
+*.sqlite
+
+# Ebooks library folder
+ebooks
+
+#Packages
+__pycache__
+
+#Backups
+*~
