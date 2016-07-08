@@ -21,26 +21,12 @@ manager = Manager(app)
 #######################
 # Classi database
 #######################
-class Authors(db.Model):
-    __bind_key__ = 'booksdb'
-    __tablename__ = 'authors'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False)
-
-    #def __repr__(self):
-    #    self.name = self.name.replace(' ', '_')
-    #    return '<Autore {}>'.format(self.name)
-
-
 class Books(db.Model):
     __bind_key__ = 'booksdb'
     __tablename__ = 'books'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     author_sort = db.Column(db.Text)
-
-    #def __repr__(self):
-    #    return 'stocazzo_{}'.format(self.title)
 
     
 ############
@@ -50,22 +36,16 @@ class Books(db.Model):
 def index():
     return render_template('index.html')
 
-#@app.route('/authors')
-#def authors():
-#    autori = Authors.query.all()
-#    nomi_autori_slug = []
-#    for autore in autori:
-#        autore.name = autore.name.replace(' ', '_').lower()
-#        nomi_autori_slug.append(autore.name)
-#    return render_template('authors.html', names = nomi_autori_slug)
-
 @app.route('/authors')
 def authors():
-    return render_template('authors.html', names = Authors.query.all())
+    return render_template('authors.html', names = Books.query.all())
 
 @app.route('/authors/<author_name>')
 def author_page(author_name):
-    return render_template('author_page.html', author_name = author_name)
+    return render_template('author_page.html',
+                           author_name = author_name,
+                           book_objects_list = Books.query.filter_by(author_sort=author_name).all()
+                           )
 
 @app.route('/user/<nome>')
 def user(nome):
