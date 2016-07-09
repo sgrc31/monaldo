@@ -1,3 +1,9 @@
 <h1>Vediamo cosa sappiamo di {{ book_title }}</h1>
 <h2>Un libricino di <a href="{{ url_for('author_page', author_name = book_object.author_sort) }}">{{ book_object.author_sort }}</a></h2>
 <span>torna alla <a href="{{ url_for('authors') }}">lista autori</a></span>
+
+<ul>
+  {% for formato in scaricabili_object_list %}
+    <li>{{ formato.format }}</li>
+  {% endfor %}
+</ul>

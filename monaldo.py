@@ -28,6 +28,14 @@ class Books(db.Model):
     title = db.Column(db.Text, nullable=False)
     author_sort = db.Column(db.Text)
 
+class Data(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'data'
+    id = db.Column(db.Integer, primary_key=True)
+    book = db.Column(db.Integer, nullable=False)
+    format = db.Column(db.Text)
+    name = db.Column(db.Text)
+
 
 ############
 # Routes
@@ -53,14 +61,15 @@ def book_page(book_id, book_title):
         return render_template('book_page.html',
                                book_id = book_id,
                                book_title = book_title,
-                               book_object = Books.query.filter_by(id=book_id).first()
+                               book_object = Books.query.filter_by(id=book_id).first(),
+                               scaricabili_object_list = Data.query.filter_by(book=book_id).all()
                                )
     else:
         return 'nope' #TODO insert 404 error
 
-@app.route('/user/<nome>')
-def user(nome):
-    return render_template('user.html', name=nome)
 
+#############
+# Start app
+#############
 if __name__ == '__main__':
     manager.run()
