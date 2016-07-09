@@ -3,6 +3,7 @@ venv
 
 # SQLite database
 *.sqlite
+*.db
 
 # Ebooks library folder
 ebooks

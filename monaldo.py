@@ -5,7 +5,7 @@ from flask import Flask, render_template
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 
-basedir_booksdb = os.path.abspath(os.path.dirname('ebooks/metadata.db'))
+basedir_booksdb = os.path.abspath(os.path.dirname('metadata.db'))
 basedir_usersdb = os.path.abspath(os.path.dirname('.'))
 
 app = Flask(__name__)
@@ -27,6 +27,7 @@ class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     author_sort = db.Column(db.Text)
+    path = db.Column(db.Text)
 
 class Data(db.Model):
     __bind_key__ = 'booksdb'

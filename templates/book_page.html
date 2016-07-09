@@ -3,7 +3,7 @@
 <span>torna alla <a href="{{ url_for('authors') }}">lista autori</a></span>
 
 <ul>
-  {% for formato in scaricabili_object_list %}
-    <li>{{ formato.format }}</li>
+  {% for book in scaricabili_object_list %}
+    <li><a href="{{ url_for('static', filename = 'ebooks/'+ book_object.path + '/' + book.name + '.' + book.format|lower) }}">{{ book.format }}</a></li>
   {% endfor %}
 </ul>
