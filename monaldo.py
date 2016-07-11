@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import random
 from flask import Flask, render_template
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
@@ -43,7 +44,11 @@ class Data(db.Model):
 ############
 @app.route('/')
 def index():
-    return render_template('index.html')
+    random_book = random.choice(Books.query.all())
+    return render_template('index.html',
+                           random_id = random_book.id,
+                           random_title = Books.query.filter_by(id=random_book.id).first().title
+                           )
 
 @app.route('/authors')
 def authors():
