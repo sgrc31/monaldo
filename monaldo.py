@@ -38,6 +38,19 @@ class Data(db.Model):
     format = db.Column(db.Text)
     name = db.Column(db.Text)
 
+class Tags(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+class BooksTagsLink(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'books_tags_link'
+    id = db.Column(db.Integer, primary_key=True)
+    book = db.Column(db.Integer, nullable=False)
+    tag = db.Column(db.Integer, nullable=False)
+
 
 ############
 # Routes
@@ -72,6 +85,10 @@ def book_page(book_id, book_title):
                                )
     else:
         return 'nope' #TODO insert 404 error
+
+@app.route('/tags')
+def all_tags():
+    return render_template('tags.html', tags_obj_list = Tags.query.all())
 
 
 #############
