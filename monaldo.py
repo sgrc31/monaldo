@@ -22,6 +22,13 @@ manager = Manager(app)
 #######################
 # Classi database
 #######################
+class Authors(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'authors'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+    sort = db.Column(db.Text)
+    
 class Books(db.Model):
     __bind_key__ = 'booksdb'
     __tablename__ = 'books'
@@ -51,6 +58,13 @@ class BooksTagsLink(db.Model):
     book = db.Column(db.Integer, nullable=False)
     tag = db.Column(db.Integer, nullable=False)
 
+class AuthorsBooksLink(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'books_authors_link'
+    id = db.Column(db.Integer, primary_key=True)
+    book = db.Column(db.Integer, nullable=False)
+    author = db.Column(db.Integer, nullable=False)
+    
 
 ############
 # Routes
@@ -65,7 +79,7 @@ def index():
 
 @app.route('/authors')
 def authors():
-    return render_template('authors.html', names = Books.query.all())
+    return render_template('authors.html', names = Authors.query.all())
 
 @app.route('/authors/<author_name>')
 def author_page(author_name):
