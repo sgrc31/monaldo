@@ -90,12 +90,16 @@ def author_page(author_name):
 
 @app.route('/book/<book_id>/<book_title>')
 def book_page(book_id, book_title):
+    books_tags_obj_list = BooksTagsLink.query.filter_by(book=book_id).all()
+    tags_numbers_list = [x.tag for x in books_tags_obj_list]
+    tags_obj_list = [Tags.query.filter_by(id=x).first() for x in tags_numbers_list]
     if book_title == Books.query.filter_by(id=book_id).first().title:
         return render_template('book_page.html',
                                book_id = book_id,
                                book_title = book_title,
                                book_object = Books.query.filter_by(id=book_id).first(),
-                               scaricabili_object_list = Data.query.filter_by(book=book_id).all()
+                               scaricabili_object_list = Data.query.filter_by(book=book_id).all(),
+                               tags_obj_list = tags_obj_list
                                )
     else:
         return 'nope' #TODO insert 404 error

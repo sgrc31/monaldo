@@ -1,6 +1,14 @@
 <h1>Vediamo cosa sappiamo di {{ book_title }}</h1>
 <h2>Un libricino di <a href="{{ url_for('author_page', author_name = book_object.author_sort) }}">{{ book_object.author_sort }}</a></h2>
-<span>torna alla <a href="{{ url_for('authors') }}">lista autori</a></span>
+<p>torna alla <a href="{{ url_for('authors') }}">lista autori</a></p>
+
+<p>vediamo se riusciamo a listare le tag:
+  {% for obj_tag in tags_obj_list %}
+    <span>
+      {{ obj_tag.name }}{% if not loop.last %},{% endif %}
+    </span>
+  {% endfor %}
+</p>
 
 <ul>
   {% for file in scaricabili_object_list %}
