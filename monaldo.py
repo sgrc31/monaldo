@@ -108,6 +108,20 @@ def book_page(book_id, book_title):
 def all_tags():
     return render_template('tags.html', tags_obj_list = Tags.query.all())
 
+@app.route('/tags/<tag_id>/<tag_name>')
+def tag_page(tag_id, tag_name):
+    tags_books_obj_list = BooksTagsLink.query.filter_by(tag=tag_id).all()
+    book_ids_list = [x.book for x in tags_books_obj_list]
+    books_obj_list = [Books.query.filter_by(id=x).first() for x in book_ids_list]
+    if tag_name == Tags.query.filter_by(id=tag_id).first().name:
+        return render_template('tag_page.html',
+                               tag_id = tag_id,
+                               tag_name = tag_name,
+                               books_obj_list = books_obj_list
+                               )
+    else:
+        return 'lolnope2'
+
 
 #############
 # Start app
