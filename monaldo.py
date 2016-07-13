@@ -64,6 +64,13 @@ class AuthorsBooksLink(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book = db.Column(db.Integer, nullable=False)
     author = db.Column(db.Integer, nullable=False)
+
+class Comments(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    book = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.Text, nullable=False)
     
 
 ############
@@ -99,7 +106,8 @@ def book_page(book_id, book_title):
                                book_title = book_title,
                                book_object = Books.query.filter_by(id=book_id).first(),
                                scaricabili_object_list = Data.query.filter_by(book=book_id).all(),
-                               tags_obj_list = tags_obj_list
+                               tags_obj_list = tags_obj_list,
+                               comment = Comments.query.filter_by(book=book_id).first()
                                )
     else:
         return 'nope' #TODO insert 404 error

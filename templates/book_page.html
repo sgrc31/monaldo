@@ -15,3 +15,6 @@
     <li><a href="{{ url_for('static', filename = 'ebooks/{}/{}.{}'.format(book_object.path, file.name, file.format|lower)) }}">{{ file.format }}</a></li>
   {% endfor %}
 </ul>
+
+<h3>Sinossi</h3>
+{{ comment.text|safe }}
