@@ -1,7 +1,7 @@
 <h1>Libri associati alla tag {{ tag_name }}</h1>
 
 <ul>
-  {% for book_obj in books_obj_list %}
+  {% for book_obj in books_obj_list|sort(attribute='title') %}
     <li><a href="{{ url_for('book_page', book_id = book_obj.id, book_title = book_obj.title) }}">{{ book_obj.title }}</a></li>
   {% endfor %}
 </ul>

@@ -3,7 +3,7 @@
 <p>torna alla <a href="{{ url_for('authors') }}">lista autori</a></p>
 
 <p>vediamo se riusciamo a listare le tag:
-  {% for obj_tag in tags_obj_list %}
+  {% for obj_tag in tags_obj_list|sort(attribute='name') %}
     <span>
       <a href="{{ url_for('tag_page', tag_id = obj_tag.id, tag_name = obj_tag.name) }}">{{ obj_tag.name }}</a>{% if not loop.last %},{% endif %}
     </span>

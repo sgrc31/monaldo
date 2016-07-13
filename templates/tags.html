@@ -1,7 +1,7 @@
 <h1>Lista di tutte le tag disponibili</h1>
 
 <ul>
-  {% for tag_obj in tags_obj_list %}
+  {% for tag_obj in tags_obj_list|sort(attribute='name') %}
     <li><a href="{{ url_for('tag_page', tag_id = tag_obj.id, tag_name = tag_obj.name) }}">{{ tag_obj.name }}</a></li>
   {% endfor %}
 </ul>

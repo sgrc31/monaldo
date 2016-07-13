@@ -1,6 +1,6 @@
 <h1>Eccoti una lista degli autori, bastardo</h1>
 <ul>
-  {% for name in names %}
+  {% for name in names|sort(attribute='sort') %}
     <li><a href="{{ url_for('author_page', author_name = name.sort) }}">{{ name.sort }}</a></li>
   {% endfor %}
 </ul>
