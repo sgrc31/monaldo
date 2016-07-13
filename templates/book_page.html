@@ -5,7 +5,7 @@
 <p>vediamo se riusciamo a listare le tag:
   {% for obj_tag in tags_obj_list %}
     <span>
-      {{ obj_tag.name }}{% if not loop.last %},{% endif %}
+      <a href="{{ url_for('tag_page', tag_id = obj_tag.id, tag_name = obj_tag.name) }}">{{ obj_tag.name }}</a>{% if not loop.last %},{% endif %}
     </span>
   {% endfor %}
 </p>
