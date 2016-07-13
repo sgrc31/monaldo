@@ -92,7 +92,7 @@ def authors():
 def author_page(author_name):
     return render_template('author_page.html',
                            author_name = author_name,
-                           book_objects_list = Books.query.filter_by(author_sort=author_name).all()
+                           book_objects_list = Books.query.filter(Books.author_sort.contains(author_name)).all()
                            )
 
 @app.route('/book/<book_id>/<book_title>')
