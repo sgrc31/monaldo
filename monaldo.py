@@ -88,11 +88,18 @@ def index():
 def authors():
     return render_template('authors.html', names = Authors.query.all())
 
-@app.route('/authors/<author_name>')
-def author_page(author_name):
+@app.route('/authors/<author_id>/<author_name>')
+def author_page(author_id, author_name):
     return render_template('author_page.html',
+                           author_id = author_id,
                            author_name = author_name,
                            book_objects_list = Books.query.filter(Books.author_sort.contains(author_name)).all()
+                           )
+
+@app.route('/books')
+def all_books():
+    return render_template('all_books',
+                           books_obj_list = Books.query.all()
                            )
 
 @app.route('/book/<book_id>/<book_title>')
@@ -100,11 +107,13 @@ def book_page(book_id, book_title):
     books_tags_obj_list = BooksTagsLink.query.filter_by(book=book_id).all()
     tags_numbers_list = [x.tag for x in books_tags_obj_list]
     tags_obj_list = [Tags.query.filter_by(id=x).first() for x in tags_numbers_list]
+    author_obj = Authors.query.filter(Authors.sort.contains(Books.query.filter_by(id=book_id).first().author_sort)).first()
     if book_title == Books.query.filter_by(id=book_id).first().title:
         return render_template('book_page.html',
                                book_id = book_id,
                                book_title = book_title,
                                book_object = Books.query.filter_by(id=book_id).first(),
+                               author_obj = author_obj,
                                scaricabili_object_list = Data.query.filter_by(book=book_id).all(),
                                tags_obj_list = tags_obj_list,
                                comment = Comments.query.filter_by(book=book_id).first()
