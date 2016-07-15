@@ -1,8 +1,8 @@
 <h1>Sei nella pagina relativa all'autore: {{ author_name }}</h1>
 
 <ul>
-  {% for book_by_author in book_objects_list|sort(attribute='title') %}
-    <li><a href="{{ url_for('book_page', book_id = book_by_author.id, book_title = book_by_author.title) }}">{{ book_by_author.title }}</a></li>
+  {% for book_by_author in book_objects_list|sort(attribute='sort') %}
+    <li><a href="{{ url_for('book_page', book_id = book_by_author.id, book_title = book_by_author.title) }}">{{ book_by_author.sort }}</a></li>
   {% endfor %}
 </ul>
 

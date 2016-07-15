@@ -1,7 +1,7 @@
 <h1>All books</h1>
 
 <ul>
-  {% for book_obj in books_obj_list|sort(attribute='title') %}
-    <li><a href="{{ url_for('book_page', book_id = book_obj.id, book_title = book_obj.title) }}">{{ book_obj.title }}</a> by {{ book_obj.author_sort }}</li>
+  {% for book_obj in books_obj_list|sort(attribute='sort') %}
+    <li><a href="{{ url_for('book_page', book_id = book_obj.id, book_title = book_obj.title) }}">{{ book_obj.sort }}</a> by {{ book_obj.author_sort }}</li>
   {% endfor %}
 </ul>
