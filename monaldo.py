@@ -100,7 +100,14 @@ def index():
 
 @app.route('/authors')
 def authors():
-    return render_template('authors.html', names = Authors.query.all())
+    books_inventory = {}
+    ids_list = [x.id for x in Authors.query.all()]
+    for id in ids_list:
+        books_inventory[id] = len(AuthorsBooksLink.query.filter_by(author=id).all())
+    return render_template('authors.html',
+                           author_objs_list = Authors.query.all(),
+                           books_inventory = books_inventory
+                          )
 
 @app.route('/authors/<author_id>/<author_name>')
 def author_page(author_id, author_name):
@@ -139,7 +146,14 @@ def book_page(book_id, book_title):
 
 @app.route('/tags')
 def all_tags():
-    return render_template('tags.html', tags_obj_list = Tags.query.all())
+    books_inventory = {}
+    ids_list = [x.id for x in Tags.query.all()]
+    for id in ids_list:
+        books_inventory[id] = len(BooksTagsLink.query.filter_by(tag=id).all())
+    return render_template('tags.html',
+                           tags_obj_list = Tags.query.all(),
+                           books_inventory = books_inventory
+                          )
 
 @app.route('/tags/<tag_id>/<tag_name>')
 def tag_page(tag_id, tag_name):

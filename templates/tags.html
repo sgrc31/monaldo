@@ -2,6 +2,6 @@
 
 <ul>
   {% for tag_obj in tags_obj_list|sort(attribute='name') %}
-    <li><a href="{{ url_for('tag_page', tag_id = tag_obj.id, tag_name = tag_obj.name) }}">{{ tag_obj.name }}</a></li>
+    <li><a href="{{ url_for('tag_page', tag_id = tag_obj.id, tag_name = tag_obj.name) }}">{{ tag_obj.name }} ({{ books_inventory[tag_obj.id] }})</a></li>
   {% endfor %}
 </ul>
