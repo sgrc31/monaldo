@@ -157,8 +157,13 @@ def tag_page(tag_id, tag_name):
 
 @app.route('/languages')
 def languages():
+    books_inventory = {}
+    ids_list = [x.id for x in Languages.query.all()]
+    for id in ids_list:
+        books_inventory[id] = len(BooksLanguagesLink.query.filter_by(lang_code=id).all())
     return render_template('languages.html',
-                           languages = Languages.query.all()
+                           languages = Languages.query.all(),
+                           books_inventory = books_inventory
                            )
 
 @app.route('/language/<language_id>/<language_name>')
