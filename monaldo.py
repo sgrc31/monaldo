@@ -107,13 +107,15 @@ def book_page(book_id, book_title):
     books_tags_obj_list = BooksTagsLink.query.filter_by(book=book_id).all()
     tags_numbers_list = [x.tag for x in books_tags_obj_list]
     tags_obj_list = [Tags.query.filter_by(id=x).first() for x in tags_numbers_list]
-    author_obj = Authors.query.filter(Authors.sort.contains(Books.query.filter_by(id=book_id).first().author_sort)).first()
+    authors_book_link_objs_list = AuthorsBooksLink.query.filter_by(book=book_id).all()
+    authors_id_list = [x.author for x in authors_book_link_objs_list]
+    author_objs_list = [Authors.query.filter_by(id=x).first() for x in authors_id_list]
     if book_title == Books.query.filter_by(id=book_id).first().title:
         return render_template('book_page.html',
                                book_id = book_id,
                                book_title = book_title,
                                book_object = Books.query.filter_by(id=book_id).first(),
-                               author_obj = author_obj,
+                               author_objs_list = author_objs_list,
                                scaricabili_object_list = Data.query.filter_by(book=book_id).all(),
                                tags_obj_list = tags_obj_list,
                                comment = Comments.query.filter_by(book=book_id).first()
