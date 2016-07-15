@@ -1,0 +1,7 @@
+<h1>Languages</h1>
+
+<ul>
+  {% for language_obj in languages|sort(attribute='lang_code') %}
+    <li><a href="{{ url_for('language_page', language_id = language_obj.id, language_name = language_obj.lang_code) }}">{{ language_obj.lang_code }}</a></li>
+  {% endfor %}
+</ul>

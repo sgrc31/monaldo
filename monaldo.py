@@ -34,6 +34,7 @@ class Books(db.Model):
     __tablename__ = 'books'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
+    sort = db.Column(db.Text, nullable=False)
     author_sort = db.Column(db.Text)
     path = db.Column(db.Text)
 
@@ -71,6 +72,19 @@ class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book = db.Column(db.Integer, nullable=False)
     text = db.Column(db.Text, nullable=False)
+
+class Languages(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'languages'
+    id = db.Column(db.Integer, primary_key=True)
+    lang_code = db.Column(db.Text, nullable=False)
+
+class BooksLanguagesLink(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'books_languages_link'
+    id = db.Column(db.Integer, primary_key=True)
+    book = db.Column(db.Integer, nullable=False)
+    lang_code = db.Column(db.Integer, nullable=False)
     
 
 ############
@@ -140,6 +154,22 @@ def tag_page(tag_id, tag_name):
                                )
     else:
         return 'lolnope2'
+
+@app.route('/languages')
+def languages():
+    return render_template('languages.html',
+                           languages = Languages.query.all()
+                           )
+
+@app.route('/language/<language_id>/<language_name>')
+def language_page(language_id, language_name):
+    book_ids_list = [x.book for x in BooksLanguagesLink.query.filter_by(lang_code=language_id).all()]
+    book_objs_list = [Books.query.filter_by(id=x).first() for x in book_ids_list]
+    return render_template('language_page.html',
+                           language_id = language_id,
+                           language_name = language_name,
+                           book_objs_list = book_objs_list
+                           )
 
 
 #############

@@ -1,0 +1,7 @@
+<h1>Books in {{ language_name }}</h1>
+
+<ul>
+  {% for book_obj in book_objs_list|sort(attribute='sort') %}
+    <li><a href="{{ url_for('book_page', book_id = book_obj.id, book_title = book_obj.title) }}">{{ book_obj.sort }}</a></li>
+  {% endfor %}
+</ul>
