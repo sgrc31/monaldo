@@ -1,7 +1,7 @@
 <h1>Vediamo cosa sappiamo di {{ book_title }}</h1>
 <h3>
   Un libro di
-  {% for author_obj in author_objs_list|sort(attribute='sort') %}
+  {% for author_obj in author_objs_list %}
     <a href="{{ url_for('author_page', author_id = author_obj.id, author_name = author_obj.sort) }}">{{ author_obj.sort }}</a>
     {% if not loop.last %}
       &amp;
