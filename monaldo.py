@@ -98,7 +98,7 @@ def author_page(author_id, author_name):
 
 @app.route('/books')
 def all_books():
-    return render_template('all_books',
+    return render_template('all_books.html',
                            books_obj_list = Books.query.all()
                            )
 
