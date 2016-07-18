@@ -35,6 +35,7 @@ class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     sort = db.Column(db.Text, nullable=False)
+    series_index = db.Column(db.Integer, nullable=False)
     author_sort = db.Column(db.Text)
     path = db.Column(db.Text)
 
@@ -85,6 +86,19 @@ class BooksLanguagesLink(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book = db.Column(db.Integer, nullable=False)
     lang_code = db.Column(db.Integer, nullable=False)
+
+class Series(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'series'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+class BooksSeriesLink(db.Model):
+    __bind_key__ = 'booksdb'
+    __tablename__ = 'books_series_link'
+    id = db.Column(db.Integer, primary_key=True)
+    book = db.Column(db.Integer, nullable=False)
+    series = db.Column(db.Integer, nullable=False)
     
 
 ############
@@ -131,6 +145,12 @@ def book_page(book_id, book_title):
     authors_book_link_objs_list = AuthorsBooksLink.query.filter_by(book=book_id).all()
     authors_id_list = [x.author for x in authors_book_link_objs_list]
     author_objs_list = [Authors.query.filter_by(id=x).first() for x in authors_id_list]
+    #series
+    try:
+        series_id = BooksSeriesLink.query.filter_by(book=book_id).first().series
+        series_obj = Series.query.filter_by(id=series_id).first()
+    except AttributeError:
+        series_obj = None
     if book_title == Books.query.filter_by(id=book_id).first().title:
         return render_template('book_page.html',
                                book_id = book_id,
@@ -139,6 +159,7 @@ def book_page(book_id, book_title):
                                author_objs_list = author_objs_list,
                                scaricabili_object_list = Data.query.filter_by(book=book_id).all(),
                                tags_obj_list = tags_obj_list,
+                               series_obj = series_obj,
                                comment = Comments.query.filter_by(book=book_id).first()
                                )
     else:
@@ -189,6 +210,23 @@ def language_page(language_id, language_name):
                            language_name = language_name,
                            book_objs_list = book_objs_list
                            )
+
+@app.route('/series/<series_id>/<series_name>')
+def series_page(series_id, series_name):
+    try:
+        check_series_name = Series.query.filter_by(id=series_id).first().name
+    except AttributeError:
+        check_series_name = None
+    books_ids_list = [x.book for x in BooksSeriesLink.query.filter_by(series=series_id).all()]
+    book_objs_list = [Books.query.filter_by(id=x).first() for x in books_ids_list]
+    if series_name == check_series_name:
+        return render_template('series_page.html',
+                               series_id = series_id,
+                               series_name = series_name,
+                               book_objs_list = book_objs_list
+                               )
+    else:
+        return 'lolnope again, sucker!'
 
 
 #############

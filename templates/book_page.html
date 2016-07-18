@@ -11,6 +11,10 @@
 
 <p>torna alla <a href="{{ url_for('authors') }}">lista autori</a></p>
 
+{% if not series_obj == None  %}
+  <h3>facente parte della serie <a href="{{ url_for('series_page', series_id = series_obj.id, series_name = series_obj.name) }}">{{ series_obj.name }}</a></h3>
+{% endif %}
+
 <p>vediamo se riusciamo a listare le tag:
   {% for obj_tag in tags_obj_list|sort(attribute='name') %}
     <span>
